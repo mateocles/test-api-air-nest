@@ -11,10 +11,12 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new AllExceptionFilter());
   app.useGlobalInterceptors(new TimeoutOutInterceptor());
+  app.enableCors();
   const options = new DocumentBuilder()
     .setTitle('API REST')
     .setDescription('API prueba')
     .setVersion('1.0.0')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('/api/docs', app, document, {
@@ -22,6 +24,7 @@ async function bootstrap() {
       filter: true,
     },
   });
+  console.log(`Port: ${process.env.PORT || 3000}`);
   await app.listen(process.env.PORT || 3000);
 }
 bootstrap();

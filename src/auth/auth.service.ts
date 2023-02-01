@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserDTO } from 'src/user/dto/user.dto';
 import { UserService } from 'src/user/user.service';
@@ -21,13 +21,16 @@ export class AuthService {
 
   async signIn(user: any) {
     try {
-      const payload = this.jwtService.sign({
-        username: user.username,
-        sub: user._id,
-      });
+      const payload = this.jwtService.sign(
+        {
+          username: user.username,
+          sub: user._id,
+        },
+        { secret: process.env.JWT_SECRET },
+      );
       return { token: payload };
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     }
   }
   async signUp(userDTO: UserDTO) {

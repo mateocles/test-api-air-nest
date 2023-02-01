@@ -15,8 +15,7 @@ dotenv.config();
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: {
-        expiresIn: process.env.EXPIRES_IN,
-        audience: process.env.APP_URL,
+        expiresIn: '1h',
       },
     }),
   ],
